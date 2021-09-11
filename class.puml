@@ -1,0 +1,28 @@
+@startuml Picories Class Diagram
+class User {
+    name: string
+    age: number
+    bio: string
+    photos: [Photos]
+    constructor(name: string, age: number)
+    adddPhoto(photo: Photo)
+    likePhoto(photo: Photo)
+}
+
+package Trips{
+class Photo {
+filename: string
+likedBy: [User]
+constructor(filename: string)
+}
+User "1" o---> "0..*" Photo: keeps likes
+Photo ---> "0..*" User: liked by
+
+
+
+
+
+}
+
+
+@enduml
