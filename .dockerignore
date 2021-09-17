@@ -1,0 +1,4 @@
+node_modules
+.history
+.eslintrc.json
+Dockerfile
