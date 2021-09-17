@@ -1,13 +1,11 @@
 {
-  "name": "packeros",
-  "version": "0.0.1",
-  "description": "In-class examples for BE101 class",
-  "main": "index.js",
+  "name": "packleros",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./bin/www",
     "lint": "lint-staged",
-    "prepare": "husky install",
-    "start": "node ./bin/www"
+    "lint-all": "pretty-quick && eslint"
   },
   "husky": {
     "hooks": {
@@ -15,39 +13,39 @@
     }
   },
   "lint-staged": {
-    "./**/*.js": [
-      "prettier --write",
+    "*.js": [
+      "pretty-quick --staged",
       "eslint --fix"
+    ],
+    "*.+(json|css|md)": [
+      "pretty-quick --staged"
     ]
   },
-  "keywords": [
-    "software-engineering",
-    "node.js",
-    "backend"
-  ],
-  "author": "Bernard Frinpong <bernie.frimpie@outlook.com>",
+  "author": "Bernard Frimpong <bernie.frimpie@outlook.com>",
   "license": "MIT",
-  "devDependencies": {
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-react-hooks": "^4",
-    "husky": "^7.0.2",
-    "lint-staged": "^11.1.2",
-    "prettier": "^2.3.2",
+  "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "livereload": "^0.9.3",
+    "mongoose": "^6.0.5",
+    "mongoose-autopopulate": "^0.15.0",
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11"
   },
-  "dependencies": {
-    "color": "^4.0.1",
-    "color-console": "^0.0.1",
-    "colors": "^1.4.0"
+  "devDependencies": {
+    "connect-livereload": "^0.6.1",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.5",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "prettier": "2.0.5",
+    "pretty-quick": "^2.0.1"
   }
 }
