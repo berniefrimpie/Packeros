@@ -1,0 +1,27 @@
+/* body {
+    background-color: red;
+} */
+
+.box-1 {
+    background-color: yellow;
+    padding: 10px;
+}
+
+.login-section {
+    padding: 10px;
+}
+
+.food-card {
+    background-color: indigo;
+    border: 1px solid red;
+    border-radius: 8px;
+    color: white;
+    padding: 8px;
+    margin: 6px;
+}
+
+.img-placeholder {
+    height: 150px;
+    width: 100%;
+    background-color: red;
+}
