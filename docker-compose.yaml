@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    image: packleros
+    build:
+     context: .
+     dockerfile: Dockerfile.production
+    environment:
+    #  - MONGODB_USERNAME=root
+    #  - MONGODB_PASSWORD=LzLyqR1ymWmLkPwD
+    #  - MONGODB_DATABASE=packleros
+      - MONGODB_CONNECTION_STRING=mongodb://mongo/packleros
+    ports:
+      - 3000:3000
+      - 35729:35729
+    volumes:
+      - ./src:/app/src
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
