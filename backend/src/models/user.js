@@ -5,16 +5,13 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     unique: true,
-    autopopulate: true,
   },
   age: {
     type: Number,
-    autopopulate: true,
   },
   email: {
     type: String,
     unique: true,
-    autopopulate: true,
   },
   bio: String,
   photos: [

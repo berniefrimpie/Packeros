@@ -1,0 +1,12 @@
+name: "PR Backend"
+
+on:
+  pull_request:
+    paths:
+      - "backend/**"
+jobs:
+  check-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+    uses: actions/checkout@master

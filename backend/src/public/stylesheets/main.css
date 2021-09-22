@@ -1,0 +1,45 @@
+/* body {
+    background-color: red;
+} */
+
+.box-1 {
+  background-color: rgb(0, 225, 255);
+  padding: 10px;
+}
+
+.login-section {
+  padding: 10px;
+}
+
+.trip-card {
+  background-color: rgb(243, 192, 169);
+  border: 1px solid rgb(221, 213, 195);
+  border-radius: 8px;
+  color: white;
+  padding: 8px;
+  margin: 6px;
+}
+
+.img-paris {
+  height: 150px;
+  width: 100%;
+  background-color: red;
+}
+.img-london {
+  height: 150px;
+  width: 100%;
+  background-color: red;
+}
+.img-berlin {
+  height: 150px;
+  width: 100%;
+  /* background-image: url(/src/public/images/newyork.jpg); */
+  background-color: red;
+}
+.img-newyork {
+  height: 150px;
+  width: 100%;
+  background-image: url(/src/public/images/newyork.jpg);
+  background-color: red;
+}
+/* background-size: 130%; */
