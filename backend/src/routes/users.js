@@ -25,16 +25,18 @@ router.post("/", async (req, res) => {
   res.send(createdUser);
 });
 
-router.get("/initialize", async (req, res) => {
+router.get("/api/initialize", async (req, res) => {
   const userOne = await User.create({
     name: "Bernard",
     age: 28,
     email: "bernie@yahoo.com",
+    location: "Dusseldorf, Germany",
   });
   const userTwo = await User.create({
     name: "Steve",
     age: 21,
     email: "bernie@yaho0.com",
+    location: "Berlin, Germany",
   });
 
   const berlinPhoto = await Photo.create({ photoName: "Berlin.jpg" });

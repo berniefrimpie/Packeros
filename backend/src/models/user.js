@@ -5,24 +5,30 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     unique: true,
+    required: true,
   },
   age: {
     type: Number,
+    required: true,
   },
   email: {
     type: String,
     unique: true,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
   },
   bio: String,
   photos: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Photo",
-      autopopulate: true,
+      autopopulate: { maxDepth: 1 },
     },
   ],
   comments: [String],
-  travelHistory: [String],
   likes: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -41,11 +47,6 @@ class User {
     photo.commentedBy.push(this);
     photo.comments.push({ user: this, comment });
     this.comments.push(comment);
-    await this.save();
-  }
-
-  async addTravelHistory(pastTrip) {
-    this.travelHistory.push(pastTrip);
     await this.save();
   }
 
