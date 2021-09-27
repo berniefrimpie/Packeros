@@ -51,7 +51,7 @@ describe("Users endpoints", () => {
     ).body;
     console.log("-------------userWithPhoto--", userWithPhoto);
 
-    // add the photo to that user
+    // add the photo to that user//
     await request(app)
       .post(`/api/users/${userWithPhoto._id}/adds`)
       .send({ photoId: photo._id });

@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
   res.send(createdUser);
 });
 
-router.get("/api/initialize", async (req, res) => {
+router.get("/initialize", async (req, res) => {
   const userOne = await User.create({
     name: "Bernard",
     age: 28,
