@@ -1,12 +1,10 @@
 <template lang="pug">
   #app
-    h1 Packleros App
-    <div id="nav">
-      <router-link to="/">Homepage</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+    #nav
+      router-link(to="/") User List
+
+    router-view
+
 </template>
 
 <style lang="scss">
