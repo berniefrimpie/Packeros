@@ -122,6 +122,12 @@ router.post("/:userId/likes", async (req, res) => {
   await user.likePhoto(photo);
   res.sendStatus(200);
 });
+router.get("/:userId", async (req, res) => {
+  const user = await User.findById(req.params.userId);
+
+  if (user) res.render("user", { user });
+  else res.sendStatus(404);
+});
 
 router.get("/:userId", async (req, res) => {
   const user = await User.findById(req.params.userId);
