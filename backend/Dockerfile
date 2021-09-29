@@ -12,4 +12,4 @@ ADD src ./src
 
 
 
-CMD [ "nodemon"]
+CMD [ "nodemon", "-l", "--ignore", "node_modules/"]

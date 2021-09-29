@@ -1,5 +1,7 @@
+/* eslint-disable no-param-reassign */
 const mongoose = require("mongoose");
 const autopopulate = require("mongoose-autopopulate");
+// const Trip = require("./trip");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -35,12 +37,52 @@ const userSchema = new mongoose.Schema({
       ref: "Photo",
     },
   ],
+  suggestedTrips: [
+    {
+      type: String,
+      ref: "Trip",
+      autopopulate: false,
+    },
+  ],
+  travelHistory: [
+    {
+      type: String,
+    },
+  ],
 });
 
 class User {
   async addPhoto(photo) {
     this.photos.push(photo);
     await this.save();
+  }
+
+  async suggestTrip(trip) {
+    this.suggestedTrips.push(trip);
+    trip.suggestedBy.push(this);
+    await this.save();
+    await trip.save();
+  }
+
+  async requestToJoin(trip) {
+    trip.interestInTrip.push(this);
+    trip.interestedBy.push(this);
+    await trip.save();
+  }
+
+  async addPastTrips(trip) {
+    this.travelHistory.push(trip);
+    await this.save();
+  }
+
+  async acceptTripRequest(trip) {
+    trip.acceptedBy = this;
+    await trip.save();
+  }
+
+  async rejectTripRequest(trip) {
+    trip.rejectedBy = this;
+    await trip.save();
   }
 
   async addComments(photo, comment) {

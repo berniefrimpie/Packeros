@@ -4,6 +4,7 @@ const router = express.Router();
 
 const User = require("../models/user");
 const Photo = require("../models/photo");
+const Trip = require("../models/trip");
 
 /* GET users listing. */
 router.get("/", async (req, res) => {
@@ -39,6 +40,11 @@ router.get("/initialize", async (req, res) => {
     location: "Berlin, Germany",
   });
 
+  const europeTrip = await Trip.create({
+    destination: ["London", "Berlin"],
+    date: new Date(),
+  });
+
   const berlinPhoto = await Photo.create({ photoName: "Berlin.jpg" });
   const parisPhoto = await Photo.create({ photoName: "Paris.jpg" });
   const accraPhoto = await Photo.create({ photoName: "Accra.jpg" });
@@ -60,11 +66,6 @@ router.get("/initialize", async (req, res) => {
   await userTwo.likePhoto(londonPhoto);
   await userOne.likePhoto(amsterdamPhoto);
 
-  // Users commenting on photos.
-  // await userOne.commentOnPhoto(legosPhoto);
-  // await userOne.commentOnPhoto(parisPhoto);
-  // await userOne.commentOnPhoto(parisPhoto);
-  // User comments
   await userTwo.addComments(parisPhoto, "wow! nice parisPhoto");
 
   await userOne.addCaption(
@@ -77,14 +78,14 @@ router.get("/initialize", async (req, res) => {
   ); // chande to captions
 
   // Users travels history
-  await userOne.addTravelHistory("Accra");
-  await userOne.addTravelHistory("Berlin");
-  await userOne.addTravelHistory("London");
-  await userOne.addTravelHistory("Paris");
-  await userTwo.addTravelHistory("New York");
-  await userTwo.addTravelHistory("Legos");
-  await userTwo.addTravelHistory("Amsterdam");
-  await userTwo.addTravelHistory("Ghent");
+  await userOne.addPastTrips("Accra");
+  await userOne.addPastTrips("Berlin");
+  await userOne.addPastTrips("London");
+  await userOne.addPastTrips("Paris");
+  await userTwo.addPastTrips("New York");
+  await userTwo.addPastTrips("Legos");
+  await userTwo.addPastTrips("Amsterdam");
+  await userTwo.addPastTrips("Ghent");
 
   // Bios of current users.
   userOne.bio =
@@ -97,6 +98,10 @@ router.get("/initialize", async (req, res) => {
   await accraPhoto.save();
   await berlinPhoto.save();
   await parisPhoto.save();
+
+  await userTwo.suggestTrip(europeTrip);
+
+  console.log(userTwo.trips);
 
   console.log(userTwo);
   res.sendStatus(200);
@@ -121,7 +126,7 @@ router.post("/:userId/likes", async (req, res) => {
 router.get("/:userId", async (req, res) => {
   const user = await User.findById(req.params.userId);
 
-  if (user) res.render("user", { user });
+  if (user) res.send(user);
   else res.sendStatus(404);
 });
 

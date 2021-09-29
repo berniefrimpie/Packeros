@@ -7,7 +7,7 @@ const photoSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      autopopulate: true,
+      autopopulate: false,
     },
   ],
 
@@ -15,7 +15,7 @@ const photoSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      autopopulate: true,
+      autopopulate: false,
     },
   ],
   comments: [
@@ -23,7 +23,7 @@ const photoSchema = new mongoose.Schema({
       user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        autopopulate: true,
+        autopopulate: false,
       },
       comment: String,
     },
