@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
     {
       type: String,
       ref: "Trip",
-      autopopulate: false,
+      autopopulate: true,
     },
   ],
   travelHistory: [
