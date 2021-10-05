@@ -34,6 +34,7 @@ services:
     volumes:
       - ./backend/src:/app/src
       - ./backend/test:/app/test
+      - ./images:/app/images
   mongo:
     image: mongo
     ports:
