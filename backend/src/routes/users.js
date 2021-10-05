@@ -1,6 +1,7 @@
 const express = require("express");
 
 const router = express.Router();
+const axios = require("axios");
 
 const User = require("../models/user");
 const Photo = require("../models/photo");
@@ -20,25 +21,46 @@ router.get("/", async (req, res) => {
 
   res.send(await User.find(query));
 });
+
 /* POST create a user */
 router.post("/", async (req, res) => {
-  const createdUser = await User.create(req.body);
+  const userToCreate = {
+    name: req.body.name,
+    age: req.body.age,
+    email: req.body.email,
+    location: req.body.location,
+    bio: req.body.bio,
+  };
+  const createdUser = await User.create(userToCreate);
   res.send(createdUser);
 });
 
 router.get("/initialize", async (req, res) => {
-  const userOne = await User.create({
+  const userOne = new User({
     name: "Bernard",
     age: 28,
     email: "bernie@yahoo.com",
     location: "Dusseldorf, Germany",
   });
-  const userTwo = await User.create({
+  await userOne.setPassword("test");
+  await userOne.save();
+
+  userOne.bio =
+    "An experienced backpacker who has visited almost every country, and now wants to share the experiance with you.";
+  userOne.save();
+
+  const userTwo = new User({
     name: "Steve",
     age: 21,
     email: "bernie@yaho0.com",
     location: "Berlin, Germany",
   });
+  await userTwo.setPassword("test");
+  await userTwo.save();
+
+  userTwo.bio =
+    "An awsome hacker who has seen it all, and now wants to experience the life of a backpacker.";
+  userTwo.save();
 
   const europeTrip = await Trip.create({
     destination: ["London", "Berlin"],
@@ -88,10 +110,6 @@ router.get("/initialize", async (req, res) => {
   await userTwo.addPastTrips("Ghent");
 
   // Bios of current users.
-  userOne.bio =
-    "An experienced backpacker who has visited almost every country, and now wants to share the experiance with you."; // .blue.bold;
-  userTwo.bio =
-    "An awsome hacker who has seen it all, and now wants to experience the life of a backpacker.";
 
   await londonPhoto.save();
   await legosPhoto.save();

@@ -14,7 +14,6 @@ const tripSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      autopopulate: false,
     },
   ],
 
@@ -22,28 +21,24 @@ const tripSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      autopopulate: false,
     },
   ],
   interestedBy: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      autopopulate: false,
     },
   ],
   acceptedBy: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      autopopulate: false,
     },
   ],
   rejectedBy: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      autopopulate: false,
     },
   ],
 });

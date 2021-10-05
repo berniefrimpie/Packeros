@@ -2,6 +2,7 @@
 const mongoose = require("mongoose");
 const autopopulate = require("mongoose-autopopulate");
 // const Trip = require("./trip");
+const passportLocalMongoose = require("passport-local-mongoose");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -20,7 +21,7 @@ const userSchema = new mongoose.Schema({
   },
   location: {
     type: String,
-    required: true,
+    required: false,
   },
   bio: String,
   photos: [
@@ -41,7 +42,7 @@ const userSchema = new mongoose.Schema({
     {
       type: String,
       ref: "Trip",
-      autopopulate: true,
+      autopopulate: { maxDepth: 1 },
     },
   ],
   travelHistory: [
@@ -59,14 +60,14 @@ class User {
 
   async suggestTrip(trip) {
     this.suggestedTrips.push(trip);
-    trip.suggestedBy.push(this);
+    trip.suggestedBy = this;
     await this.save();
     await trip.save();
   }
 
   async requestToJoin(trip) {
     trip.interestInTrip.push(this);
-    trip.interestedBy.push(this);
+    trip.interestedBy = this;
     await trip.save();
   }
 
@@ -86,7 +87,7 @@ class User {
   }
 
   async addComments(photo, comment) {
-    photo.commentedBy.push(this);
+    photo.commentedBy = this;
     photo.comments.push({ user: this, comment });
     this.comments.push(comment);
     await this.save();
@@ -107,5 +108,8 @@ class User {
 }
 userSchema.loadClass(User);
 userSchema.plugin(autopopulate);
+userSchema.plugin(passportLocalMongoose, {
+  usernameField: "email",
+});
 
 module.exports = mongoose.model("User", userSchema);
