@@ -1,11 +1,27 @@
+<script>
+import { mapActions } from 'vuex'
+
+export default {
+  name: 'App',
+  methods: {
+    ...mapActions(['logout']),
+    async doLogout() {
+      await this.logout()
+      this.$router.push('/login')
+    }
+  }
+}
+</script>
 <template lang="pug">
   #app
     #nav
-      router-link(to="/") User List
-
+      router-link(to="/profile") Profile
+      router-link(to="/login") Login
+      router-link(to="/register") Register
+      a(@click="doLogout" href="#") Logout
     router-view
-
 </template>
+
 
 <style lang="scss">
 #app {
@@ -14,6 +30,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+   background-color: rgb(0, 162, 255);
 }
 
 #nav {
@@ -22,9 +39,11 @@
   a {
     font-weight: bold;
     color: #2c3e50;
+    margin: 0 1rem;
+
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: #370bd6;
     }
   }
 }
