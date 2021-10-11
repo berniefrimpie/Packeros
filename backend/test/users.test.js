@@ -4,9 +4,9 @@ const app = require("../src/app");
 describe("Users endpoints", () => {
   it("post request to /api/users should create a user", async () => {
     const userToCreate = {
-      name: `johnson${Date.now()}`,
+      name: `johnson${Math.random()}`,
       age: 27,
-      email: "johnson@ymail.com",
+      email: `johnson@ymail.com${Math.random()}`,
       location: "berlin",
       bio: "Been There. Done That.",
     };
@@ -42,9 +42,9 @@ describe("Users endpoints", () => {
       await request(app)
         .post("/api/users")
         .send({
-          name: `james${Date.now()}`,
+          name: `james${Math.random()}`,
           age: 27,
-          email: "james@getMaxListeners.com",
+          email: `james@getMaxListeners.com${Math.random()}`,
           location: "dusseldorf",
           bio: "Someone sharing photos.",
         })
@@ -58,9 +58,9 @@ describe("Users endpoints", () => {
 
     // create another user
     const likerUser = {
-      name: `jonas${Date.now()}`,
+      name: `jonas${Math.random()}`,
       age: 36,
-      email: "johnas@ymail.com",
+      email: `johnas@ymail.com${Math.random()}`,
       location: "accra",
       bio: "Someone liking photos.",
     };
