@@ -1,9 +1,11 @@
 const express = require("express");
 
 const router = express.Router();
+// const axios = require("axios");
 
 const User = require("../models/user");
 const Photo = require("../models/photo");
+const Trip = require("../models/trip");
 
 /* GET users listing. */
 router.get("/", async (req, res) => {
@@ -19,22 +21,50 @@ router.get("/", async (req, res) => {
 
   res.send(await User.find(query));
 });
+
 /* POST create a user */
 router.post("/", async (req, res) => {
-  const createdUser = await User.create(req.body);
+  const userToCreate = {
+    name: req.body.name,
+    age: req.body.age,
+    email: req.body.email,
+    location: req.body.location,
+    bio: req.body.bio,
+  };
+  const createdUser = await User.create(userToCreate);
   res.send(createdUser);
 });
 
 router.get("/initialize", async (req, res) => {
-  const userOne = await User.create({
+  const userOne = new User({
     name: "Bernard",
     age: 28,
     email: "bernie@yahoo.com",
+    location: "Dusseldorf, Germany",
   });
-  const userTwo = await User.create({
+  await userOne.setPassword("test");
+  await userOne.save();
+
+  userOne.bio =
+    "An experienced backpacker who has visited almost every country, and now wants to share the experiance with you.";
+  userOne.save();
+
+  const userTwo = new User({
     name: "Steve",
     age: 21,
     email: "bernie@yaho0.com",
+    location: "Berlin, Germany",
+  });
+  await userTwo.setPassword("test");
+  await userTwo.save();
+
+  userTwo.bio =
+    "An awsome hacker who has seen it all, and now wants to experience the life of a backpacker.";
+  userTwo.save();
+
+  const europeTrip = await Trip.create({
+    destination: ["London", "Berlin"],
+    date: new Date(),
   });
 
   const berlinPhoto = await Photo.create({ photoName: "Berlin.jpg" });
@@ -58,11 +88,6 @@ router.get("/initialize", async (req, res) => {
   await userTwo.likePhoto(londonPhoto);
   await userOne.likePhoto(amsterdamPhoto);
 
-  // Users commenting on photos.
-  // await userOne.commentOnPhoto(legosPhoto);
-  // await userOne.commentOnPhoto(parisPhoto);
-  // await userOne.commentOnPhoto(parisPhoto);
-  // User comments
   await userTwo.addComments(parisPhoto, "wow! nice parisPhoto");
 
   await userOne.addCaption(
@@ -75,26 +100,26 @@ router.get("/initialize", async (req, res) => {
   ); // chande to captions
 
   // Users travels history
-  await userOne.addTravelHistory("Accra");
-  await userOne.addTravelHistory("Berlin");
-  await userOne.addTravelHistory("London");
-  await userOne.addTravelHistory("Paris");
-  await userTwo.addTravelHistory("New York");
-  await userTwo.addTravelHistory("Legos");
-  await userTwo.addTravelHistory("Amsterdam");
-  await userTwo.addTravelHistory("Ghent");
+  await userOne.addPastTrips("Accra");
+  await userOne.addPastTrips("Berlin");
+  await userOne.addPastTrips("London");
+  await userOne.addPastTrips("Paris");
+  await userTwo.addPastTrips("New York");
+  await userTwo.addPastTrips("Legos");
+  await userTwo.addPastTrips("Amsterdam");
+  await userTwo.addPastTrips("Ghent");
 
   // Bios of current users.
-  userOne.bio =
-    "An experienced backpacker who has visited almost every country, and now wants to share the experiance with you."; // .blue.bold;
-  userTwo.bio =
-    "An awsome hacker who has seen it all, and now wants to experience the life of a backpacker.";
 
   await londonPhoto.save();
   await legosPhoto.save();
   await accraPhoto.save();
   await berlinPhoto.save();
   await parisPhoto.save();
+
+  await userTwo.suggestTrip(europeTrip);
+
+  console.log(userTwo.trips);
 
   console.log(userTwo);
   res.sendStatus(200);
@@ -119,7 +144,7 @@ router.post("/:userId/likes", async (req, res) => {
 router.get("/:userId", async (req, res) => {
   const user = await User.findById(req.params.userId);
 
-  if (user) res.render("user", { user });
+  if (user) res.send(user);
   else res.sendStatus(404);
 });
 
