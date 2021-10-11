@@ -6,6 +6,7 @@ const logger = require("morgan");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const passport = require("passport");
+const cors = require("cors");
 const User = require("./models/user");
 
 const mongooseConnection = require("./database-connection");
@@ -17,6 +18,13 @@ const accountsRouter = require("./routes/account");
 
 const app = express();
 
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+
 if (app.get("env") == "development") {
   /* eslint-disable-next-line */
   app.use(require("connect-livereload")());
@@ -25,6 +33,8 @@ if (app.get("env") == "development") {
     .createServer({ extraExts: ["pug"] })
     .watch([`${__dirname}/public`, `${__dirname}/views`]);
 }
+
+app.set("trust proxy", 1);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -46,6 +56,8 @@ app.use(
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       path: "/api",
+      sameSite: process.env.NODE_ENV == "production" ? "none" : "strict",
+      secure: process.env.NODE_ENV == "production",
     },
   })
 );
