@@ -1,7 +1,7 @@
 const express = require("express");
 
 const router = express.Router();
-const axios = require("axios");
+// const axios = require("axios");
 
 const User = require("../models/user");
 const Photo = require("../models/photo");
